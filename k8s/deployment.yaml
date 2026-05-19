@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mcp-agents
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-m5stick-agent
+  namespace: mcp-agents
+  labels:
+    app: mcp-m5stick
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-m5stick
+  template:
+    metadata:
+      labels:
+        app: mcp-m5stick
+    spec:
+      containers:
+      - name: mcp-server
+        # Substitua pela sua imagem no Docker Hub, GitHub Container Registry, etc.
+        image: gabriellins/mcp-m5stick-agent:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080  # Porta correspondente à escuta padrão do FastMCP
+        env:
+        - name: M5STICK_IP
+          # IP do seu M5Stick configurado previamente
+          value: "192.168.1.12" 
+        - name: M5STICK_PORT
+          value: "5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-m5stick-service
+  namespace: mcp-agents
+spec:
+  selector:
+    app: mcp-m5stick
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080  # Encaminha o tráfego para a porta 8080 do container
+  type: NodePort
