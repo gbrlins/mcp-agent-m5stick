@@ -114,4 +114,6 @@ Este agente é um especialista em monitoramento ambiental e telemetria de hardwa
 - **Kubernetes** (Namespace, Deployment, NodePort Service)
 - **Model Context Protocol (MCP)**
 
+![M5 Stick com código em execução](./assets/m5-stick.jpeg)
+
 Desenvolvido com ❤️ para conectar o mundo físico às inteligências artificiais.
